@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.netfie.monkey_funkey.monkey_funkey">
+    package="com.netfie.monkeyfunkey.game">
     <application
         android:label="Monkey Funkey"
         android:name="${applicationName}"
