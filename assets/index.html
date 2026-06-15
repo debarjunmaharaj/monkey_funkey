@@ -161,11 +161,24 @@
   function noise(d,v,freq=300){if(!OPTS.sfx)return;const buf=AC.createBuffer(1,AC.sampleRate*d,AC.sampleRate);const dt=buf.getChannelData(0);for(let i=0;i<dt.length;i++)dt[i]=Math.random()*2-1;const s=AC.createBufferSource(),g=AC.createGain(),f=AC.createBiquadFilter();f.type='bandpass';f.frequency.value=freq;s.buffer=buf;s.connect(f);f.connect(g);g.connect(AC.destination);g.gain.setValueAtTime(v,AC.currentTime);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);s.start();s.stop(AC.currentTime+d+.01);}
 
   const BUFFERS={};
-  async function loadSnd(n,u){try{const r=await fetch(u);const b=await r.arrayBuffer();BUFFERS[n]=await AC.decodeAudioData(b);}catch(e){console.log('Load failed:',n,e);}}
+  async function loadSnd(n,u){
+    try{
+      console.log('Loading sound:', n, 'from:', u);
+      const r=await fetch(u);
+      if(!r.ok) throw new Error('Fetch failed with status ' + r.status);
+      const b=await r.arrayBuffer();
+      BUFFERS[n]=await AC.decodeAudioData(b);
+      console.log('Sound loaded:', n);
+    }catch(e){
+      console.error('Load failed:',n,u,e);
+      // Fallback: try to load without fetch if possible?
+      // Most WebViews require fetch/XHR for decodeAudioData.
+    }
+  }
   loadSnd('music','gta-san-andreas-abertura-oficial.mp3');
   loadSnd('hit','oh-my-god-bro-ah-hell-nah.mp3');
   loadSnd('bruh','nahi-nahi-saluke-yaha-kuchh-to-gadbad-hai.mp3');
-  loadSnd('yooo','Amongus Sus.mp3');
+  loadSnd('yooo','Amongus%20Sus.mp3');
   loadSnd('powerup','tmpbxydyrz3.mp3');
   loadSnd('spin','spiderman-meme-song.mp3');
   function playBuf(n,v=0.4,l=false){if(!OPTS.sfx||!BUFFERS[n])return null;const s=AC.createBufferSource(),g=AC.createGain();s.buffer=BUFFERS[n];s.loop=l;g.gain.value=v;s.connect(g);g.connect(AC.destination);s.start();return{s,g};}
