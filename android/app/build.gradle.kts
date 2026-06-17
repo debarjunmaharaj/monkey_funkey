@@ -1,6 +1,5 @@
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
@@ -25,6 +24,13 @@ android {
 
     buildTypes {
         release {
+            // No manual keystore wired up here. This signs release builds
+            // with the debug key so `flutter build apk` / `flutter build appbundle`
+            // succeed from the command line without a key.properties file.
+            // This is NOT suitable for a Play Store upload — when you build
+            // through Android Studio's "Generate Signed Bundle / APK" wizard,
+            // that flow supplies its own signing config and this line is
+            // irrelevant for that path.
             signingConfig = signingConfigs.getByName("debug")
             isMinifyEnabled = true
             isShrinkResources = true
