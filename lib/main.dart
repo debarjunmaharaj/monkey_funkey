@@ -60,9 +60,16 @@ class _GameScreenState extends State<GameScreen> {
             debugPrint('WebView error: ${error.description}');
           },
         ),
-      )
-      // Load the local game file from assets
-      ..loadFlutterAsset('assets/index.html');
+      );
+
+    // Platform-specific configuration for better performance
+    if (_controller.platform is AndroidWebViewController) {
+      AndroidWebViewController.enableDebugging(false);
+      (_controller.platform as AndroidWebViewController)
+          .setMediaPlaybackRequiresUserGesture(false);
+    }
+    
+    _controller.loadFlutterAsset('assets/index.html');
   }
 
   @override
