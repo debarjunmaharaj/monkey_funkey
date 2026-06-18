@@ -71,7 +71,7 @@
     @media(max-width:600px){#mobileCtrl{display:block}}
 
     /* Pause button */
-    #pauseBtn{position:fixed;top:10px;right:12px;z-index:50;pointer-events:all;width:44px;height:44px;background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(0,0,0,.4));border:2px solid rgba(255,255,255,.4);border-radius:12px;font-size:18px;display:none;align-items:center;justify-content:center;cursor:pointer;color:#fff;backdrop-filter:blur(8px);box-shadow:0 3px 0 rgba(0,0,0,.4)}
+    #pauseBtn{position:fixed;top:75px;left:12px;right:auto;z-index:50;pointer-events:all;width:44px;height:44px;background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(0,0,0,.4));border:2px solid rgba(255,255,255,.4);border-radius:12px;font-size:18px;display:none;align-items:center;justify-content:center;cursor:pointer;color:#fff;backdrop-filter:blur(8px);box-shadow:0 3px 0 rgba(0,0,0,.4)}
     #pauseBtn.vis{display:flex}
 
     /* ── FLOAT TEXT ── */
@@ -100,8 +100,50 @@
     #loadText{color:#ffd700;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:900;text-shadow:0 1px 3px #000}
 
     /* Place the monkey in the bottom corner */
-    #homeAvatarWrap{position:absolute; bottom:0; right:0; width:clamp(220px, 60vw, 380px); pointer-events:none; z-index:1; filter:drop-shadow(0 10px 30px rgba(0,0,0,0.5))}
+    #homeAvatarWrap{position:absolute; bottom:-45px; right:0; width:clamp(220px, 60vw, 380px); pointer-events:none; z-index:1; filter:drop-shadow(0 10px 30px rgba(0,0,0,0.5))}
     #homeAvatarWrap video{width:100%;height:auto;display:block}
+
+    .home-btn-layout {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+    }
+    .home-btn-layout .btn {
+      max-width: 270px;
+    }
+    
+    /* Responsive layout adjustments for small screens / landscapes */
+    @media(max-height: 600px) or (orientation: landscape) {
+      .home-btn-layout {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+        max-width: 360px !important;
+        width: 100% !important;
+      }
+      .home-btn-layout .btn {
+        max-width: 100% !important;
+        font-size: 13px !important;
+        padding: 8px 12px !important;
+      }
+      #btnPlay {
+        grid-column: span 2 !important;
+        font-size: 18px !important;
+        padding: 12px 0 !important;
+      }
+      #sStart {
+        gap: 12px !important;
+      }
+      #missionListStart {
+        margin-bottom: -5px;
+      }
+      #homeAvatarWrap {
+        width: clamp(120px, 25vw, 190px) !important;
+        bottom: -20px !important;
+      }
+    }
     .screen::-webkit-scrollbar{width:0}
     .screen{scrollbar-width:none}
 
@@ -198,7 +240,7 @@
 
     /* Respect device notches / rounded corners / home-indicator */
     #hud{padding-top:max(10px,env(safe-area-inset-top));padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right))}
-    #pauseBtn{top:max(10px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right))}
+    #pauseBtn{top:max(75px,calc(65px + env(safe-area-inset-top)));left:max(12px,env(safe-area-inset-left));right:auto}
     #mobileCtrl{padding-bottom:env(safe-area-inset-bottom);height:calc(clamp(130px,22vw,175px) + env(safe-area-inset-bottom))}
     #mLeft,#mRight,#mSlide,#mSpin{bottom:calc(12px + env(safe-area-inset-bottom))}
     #mJump{bottom:calc(clamp(72px,13vw,90px) + env(safe-area-inset-bottom))}
@@ -282,13 +324,45 @@
     @media(min-width:1100px){
       #c,video#bgVideo{left:50%;transform:translateX(-50%);max-width:900px}
       #ui,#overlay,#mobileCtrl,#pauseOverlay,#countdown,#lbT,#lbB{left:50%;transform:translateX(-50%);max-width:900px;right:auto}
-      #pauseBtn{right:max(12px,calc(50vw - 450px + env(safe-area-inset-right)))}
+      #pauseBtn{left:max(12px,calc(50vw - 450px + env(safe-area-inset-left)));right:auto}
     }
 
     /* ── Short viewports generally (e.g. small laptops, split-view) ──
        Make sure the overlay screens never need to scroll the page itself */
     @media(max-height:640px){
       .screen{gap:8px;padding:14px 22px}
+    }
+    
+    .shop-buy-btn {
+      pointer-events: all;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 12px;
+      border: 2px solid rgba(255,255,255,0.25);
+      font-size: 11px;
+      font-weight: 900;
+      color: #fff;
+      transition: all 0.15s;
+      min-width: 76px;
+      font-family: 'Fredoka One', system-ui;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+      box-shadow: 0 3px 0 rgba(0,0,0,0.3);
+    }
+    .shop-buy-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.3);
+    }
+    .btn-coin {
+      background: linear-gradient(180deg, #ffd700 0%, #ff8c00 100%);
+      border-color: #ffe566;
+      color: #5c2c00;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.3);
+    }
+    .btn-gem {
+      background: linear-gradient(180deg, #00ffcc 0%, #00a896 100%);
+      border-color: #a3fff0;
+      color: #003a30;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.3);
     }
   </style>
 </head>
@@ -299,6 +373,21 @@
 </video>
 <video id="avVideo" preload="auto" autoplay loop muted playsinline style="display:none">
   <source src="avater.webm" type="video/webm">
+</video>
+<video id="avVideo2" preload="auto" autoplay loop muted playsinline style="display:none">
+  <source src="avater2.webm" type="video/webm">
+</video>
+<video id="boulderVideo" preload="auto" autoplay loop muted playsinline style="display:none">
+  <source src="boulder.webm" type="video/webm">
+</video>
+<video id="coinVideo" preload="auto" autoplay loop muted playsinline style="display:none">
+  <source src="coin.webm" type="video/webm">
+</video>
+<video id="gemVideo" preload="auto" autoplay loop muted playsinline style="display:none">
+  <source src="gem.webm" type="video/webm">
+</video>
+<video id="logVideo" preload="auto" autoplay loop muted playsinline style="display:none">
+  <source src="Rolling-Log.webm" type="video/webm">
 </video>
 <div id="lbT"></div><div id="lbB"></div>
 
@@ -338,6 +427,7 @@
 </div>
 
 <button id="pauseBtn">⏸</button>
+<button id="btnUseMagnet" style="position:fixed; top:130px; left:12px; z-index:50; width:44px; height:44px; background:linear-gradient(180deg,rgba(0,120,255,.6),rgba(0,0,0,.7)); border:2px solid rgba(0,180,255,.8); border-radius:12px; font-size:18px; display:none; align-items:center; justify-content:center; cursor:pointer; color:#fff; backdrop-filter:blur(8px); box-shadow:0 3px 0 rgba(0,0,0,.4)">🧲<span id="magnetCountBadge" style="position:absolute; top:-5px; right:-5px; background:#ff3366; color:#fff; border-radius:50%; width:18px; height:18px; font-size:10px; display:flex; align-items:center; justify-content:center; font-weight:bold;">0</span></button>
 
 <div id="mobileCtrl">
   <button class="mBtn" id="mLeft">◀<span class="mBtnLbl">LEFT</span></button>
@@ -380,9 +470,12 @@
 
     <div style="width:100%; display:flex; flex-direction:column; align-items:center; gap:12px; z-index:2">
       <div id="missionListStart" style="width:100%; max-width:300px; opacity:0.8; transform:scale(0.9)"></div>
-
-      <button class="btn btn-primary" id="btnPlay" style="font-size: 24px; padding: 18px 0;">🐒 PLAY</button>
-      <button class="btn btn-secondary" id="btnOpts">⚙️ OPTIONS</button>
+      <div class="home-btn-layout">
+        <button class="btn btn-primary" id="btnPlay" style="font-size: 24px; padding: 18px 0;">🐒 PLAY</button>
+        <button class="btn btn-secondary" id="btnAvs" style="background: linear-gradient(180deg, #ffea70 0%, #ff9f1c 100%); color: #6a2a00; border: 3px solid #fff; box-shadow: 0 5px 0 #b25300, 0 10px 22px rgba(255,160,0,0.55), inset 0 2.5px 0 rgba(255,255,255,0.6); text-shadow: 0 1px 0 rgba(255,255,255,0.4);">🎭 HEROES</button>
+        <button class="btn btn-secondary" id="btnShop" style="background: linear-gradient(180deg, #00b09b 0%, #96c93d 100%); color: #fff; border: 3px solid #ffd700; box-shadow: 0 5px 0 #00723f, 0 10px 22px rgba(0,176,155,0.5), inset 0 2.5px 0 rgba(255,255,255,0.5); text-shadow: 0 1.5px 2px rgba(0,0,0,0.5);">🛒 JUNGLE SHOP</button>
+        <button class="btn btn-secondary" id="btnOpts">⚙️ OPTIONS</button>
+      </div>
     </div>
 
     <div class="ctrl-row" style="opacity:0.6; z-index:2">
@@ -427,6 +520,72 @@
       <button class="diff-btn" id="diffHard">💀 Hard</button>
     </div>
     <button class="btn btn-secondary" id="btnOptsBack">← BACK</button>
+  </div>
+  <!-- Avatar Selector Screen -->
+  <div class="screen" id="sAvatars">
+    <div class="opts-title" style="text-shadow: 0 4px 8px rgba(0,0,0,0.5);">🎭 SELECT HERO</div>
+    <div id="avatarPreviewContainer" style="width: 200px; height: 200px; margin: 10px auto; border: 4px solid #ffd700; border-radius: 50%; overflow: hidden; background: url('back1.png') center center / cover no-repeat; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(255,215,0,0.4);">
+      <canvas id="avatarPreviewCanvas" width="200" height="200" style="width: 200px; height: 200px; border-radius: 50%;"></canvas>
+    </div>
+    <div style="font-size: 14px; color: #ffd700; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; margin-bottom: 5px; text-shadow: 0 2px 4px #000;" id="avatarNameLabel">Normal Monkey</div>
+    <div style="background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 14px; backdrop-filter: blur(12px); box-shadow: 0 8px 32px rgba(0,0,0,0.4); width: 100%; max-width: 350px; margin-bottom: 12px; display: flex; justify-content: center;">
+      <div class="difficulty-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%;">
+        <button class="diff-btn sel" id="avNormal" style="padding: 12px 6px;">🐒 Normal</button>
+        <button class="diff-btn" id="avNinja" style="padding: 12px 6px;">🥷 Ninja</button>
+        <button class="diff-btn" id="avCowboy" style="padding: 12px 6px;">🤠 Cowboy</button>
+        <button class="diff-btn" id="avFiery" style="padding: 12px 6px;">🔥 Fiery</button>
+        <button class="diff-btn" id="avJungle" style="padding: 12px 6px; grid-column: span 2;">🌿 Jungle</button>
+      </div>
+    </div>
+    <button class="btn btn-secondary" id="btnAvsBack">← BACK</button>
+  </div>
+  <!-- Shop Screen -->
+  <div class="screen" id="sShop">
+    <div class="opts-title" style="text-shadow: 0 4px 8px rgba(0,0,0,0.5); margin-bottom: 2px;">🛒 JUNGLE SHOP</div>
+    
+    <div style="display: flex; gap: 12px; margin-bottom: 10px; background: rgba(0,0,0,0.4); border-radius: 12px; padding: 6px 14px; border: 1px solid rgba(255,255,255,0.1);">
+      <span style="color:#ffd700; font-weight:bold; font-size:14px;" id="shopCoins">🪙 0</span>
+      <span style="color:#00ffcc; font-weight:bold; font-size:14px;" id="shopGems">💎 0</span>
+    </div>
+
+    <div style="background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 12px; backdrop-filter: blur(12px); box-shadow: 0 8px 32px rgba(0,0,0,0.4); width: 100%; max-width: 360px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 10px;">
+      
+      <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.05);">
+        <div style="text-align:left;">
+          <div style="font-size:14px; color:#ff4466; font-weight:bold;">❤️ Extra Lifeline</div>
+          <div style="font-size:10px; color:rgba(255,255,255,0.6);" id="shopQtyLife">Owned: 0</div>
+        </div>
+        <div style="display:flex; gap:4px;">
+          <button class="shop-buy-btn btn-coin" id="buyLifeCoin">🪙 100</button>
+          <button class="shop-buy-btn btn-gem" id="buyLifeGem">💎 10</button>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.05);">
+        <div style="text-align:left;">
+          <div style="font-size:14px; color:#00ffcc; font-weight:bold;">🧲 Magnet Booster</div>
+          <div style="font-size:10px; color:rgba(255,255,255,0.6);" id="shopQtyMagnet">Owned: 0</div>
+        </div>
+        <div style="display:flex; gap:4px;">
+          <button class="shop-buy-btn btn-coin" id="buyMagnetCoin">🪙 150</button>
+          <button class="shop-buy-btn btn-gem" id="buyMagnetGem">💎 15</button>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.05);">
+        <div style="text-align:left;">
+          <div style="font-size:14px; color:#ffd700; font-weight:bold;">🌀 Spin Dash Booster</div>
+          <div style="font-size:10px; color:rgba(255,255,255,0.6);" id="shopQtySpin">Owned: 0</div>
+        </div>
+        <div style="display:flex; gap:4px;">
+          <button class="shop-buy-btn btn-coin" id="buySpinCoin">🪙 200</button>
+          <button class="shop-buy-btn btn-gem" id="buySpinGem">💎 20</button>
+        </div>
+      </div>
+
+    </div>
+    
+    <button class="btn btn-secondary" id="btnShopBack">← BACK</button>
   </div>
 </div>
 
@@ -499,7 +658,7 @@
   const OPTS={sfx:true,music:true,shake:true,blur:true,lbox:true,weather:true,sensitivity:1.0};
   const BUFFERS={};
   let assetsLoaded = 0;
-  const totalAssets = 9; // 7 sounds + 2 main videos
+  const totalAssets = 14; // 7 sounds + 7 videos
 
   function updateLoader() {
     assetsLoaded++;
@@ -508,6 +667,11 @@
       // Final video check
       bgVideo.play().catch(()=>{});
       avVideo.play().catch(()=>{});
+      avVideo2.play().catch(()=>{});
+      boulderVideo.play().catch(()=>{});
+      coinVideo.play().catch(()=>{});
+      gemVideo.play().catch(()=>{});
+      logVideo.play().catch(()=>{});
       if(homeVideo) homeVideo.play().catch(()=>{});
     }
   }
@@ -557,6 +721,11 @@
     renderMissions('missionListStart');
     warmVideo('bgVideo');
     warmVideo('avVideo');
+    warmVideo('avVideo2');
+    warmVideo('boulderVideo');
+    warmVideo('coinVideo');
+    warmVideo('gemVideo');
+    warmVideo('logVideo');
     soundFiles.forEach(s => loadSnd(s[0], s[1]));
   });
 
@@ -611,17 +780,39 @@
   document.getElementById('diffNorm').addEventListener('click',()=>setDiff('normal'));
   document.getElementById('diffHard').addEventListener('click',()=>setDiff('hard'));
 
+  /* ── AVATAR SELECTION ── */
+  function setAvatar(av){
+    document.querySelectorAll('#avNormal, #avNinja, #avCowboy, #avFiery, #avJungle').forEach(b=>b.classList.remove('sel'));
+    G.avatarType = av;
+    const nameMap = {normal:'Normal Monkey', ninja:'Ninja Monkey', cowboy:'Cowboy Monkey', fiery:'Fiery Monkey', jungle:'Jungle Monkey'};
+    document.getElementById('avatarNameLabel').textContent = nameMap[av] || 'Unknown';
+    if(av==='normal') document.getElementById('avNormal').classList.add('sel');
+    else if(av==='ninja') document.getElementById('avNinja').classList.add('sel');
+    else if(av==='cowboy') document.getElementById('avCowboy').classList.add('sel');
+    else if(av==='fiery') document.getElementById('avFiery').classList.add('sel');
+    else if(av==='jungle') document.getElementById('avJungle').classList.add('sel');
+  }
+  document.getElementById('avNormal').addEventListener('click',()=>setAvatar('normal'));
+  document.getElementById('avNinja').addEventListener('click',()=>setAvatar('ninja'));
+  document.getElementById('avCowboy').addEventListener('click',()=>setAvatar('cowboy'));
+  document.getElementById('avFiery').addEventListener('click',()=>setAvatar('fiery'));
+  document.getElementById('avJungle').addEventListener('click',()=>setAvatar('jungle'));
+
   /* ── GAME STATE ── */
   const G={
     running:false,paused:false,score:0,dist:0,speed:5.5,baseSpeed:5.5,
     lives:3,shield:false,bananas:0,bananaMeter:0,
     combo:0,maxCombo:0,world:0,tick:0,gameOver:false,
     bestScore:+localStorage.getItem('mfBest')||0,
+    coins:+localStorage.getItem('mfCoins')||0,
+    gems:+localStorage.getItem('mfGems')||0,
+    inventory:JSON.parse(localStorage.getItem('mfInventory'))||{lives:0,magnet:0,spin:0},
     totalBananas:0,camShake:0,puType:'',puTime:0,
     spinDash:false,spinTime:0,invincible:0,hitFlash:0,spinCount:0,
     startTime:0,elapsedTime:0,
     letters:[], feverMode:0,
     riding: null, rideTime: 0,
+    avatarType: 'normal',
     missions: JSON.parse(localStorage.getItem('mfMissions')) || [
       {type: 'coin', goal: 100, current: 0, desc: 'Collect 100 Coins', reward: 500},
       {type: 'dist', goal: 1000, current: 0, desc: 'Run 1000 Meters', reward: 1000},
@@ -700,13 +891,14 @@
     const rnd=Math.random();
     let type = 'coin';
     if(rnd < 0.05) type = 'gem';
-    else if(rnd < 0.10) type = 'letter';
-    else if(rnd < 0.15) type = 'banana_bunch';
-    else if(rnd < 0.20) type = 'mystery_box';
-    else if(rnd < 0.23) type = 'ride';
+    else if(rnd < 0.09) type = 'letter';
+    else if(rnd < 0.13) type = 'banana_bunch';
+    else if(rnd < 0.17) type = 'mystery_box';
+    else if(rnd < 0.20) type = 'ride';
+    else if(rnd < 0.24) type = 'life_booster';
 
     if(type === 'coin' || type === 'gem') {
-      for(let i=0;i<n;i++) coins.push({lane,z:i*.07,alive:true,type:type});
+      for(let i=0;i<n;i++) coins.push({lane,z:i*.15,alive:true,type:type});
     } else if(type === 'ride') {
       coins.push({lane, z:0, alive:true, type:'ride', animal: Math.random()<.5?'leopard':'gorilla'});
     } else {
@@ -775,8 +967,26 @@
     for(let i=0;i<3;i++)lr.innerHTML+=`<span class="hrt${i<G.lives?'':' lost'}">❤️</span>`;
     document.getElementById('meterFill').style.width=G.bananaMeter+'%';
     const spinBtn=document.getElementById('mSpin');
-    if(G.bananaMeter>=100)spinBtn.classList.add('ready');
-    else spinBtn.classList.remove('ready');
+    if(G.bananaMeter>=100 || G.inventory.spin > 0) {
+      spinBtn.classList.add('ready');
+      if (spinBtn.querySelector('.mBtnLbl')) {
+        spinBtn.querySelector('.mBtnLbl').textContent = G.bananaMeter>=100 ? 'SPIN' : 'BOOST (' + G.inventory.spin + ')';
+      }
+    } else {
+      spinBtn.classList.remove('ready');
+      if (spinBtn.querySelector('.mBtnLbl')) {
+        spinBtn.querySelector('.mBtnLbl').textContent = 'SPIN';
+      }
+    }
+    // Update Magnet Booster Button Visibility and Count Badge
+    const magnetBtn = document.getElementById('btnUseMagnet');
+    const badge = document.getElementById('magnetCountBadge');
+    if (G.running && !G.paused && G.inventory.magnet > 0) {
+      magnetBtn.style.display = 'flex';
+      badge.textContent = G.inventory.magnet;
+    } else {
+      magnetBtn.style.display = 'none';
+    }
     // Show powerup in item slots
     if(G.puType){
       const icons={magnet:'🧲',rocket:'🚀',freeze:'⏱️',boots:'👟',double:'⬆️'};
@@ -857,16 +1067,40 @@
       return;
     }
     if(G.shield){G.shield=false;snd.bonk();shake(5);floatText('SHIELD GONE! 🛡️','#00ccff');G.combo=0;return;}
-    G.lives--;snd.hit();shake(14);G.combo=0;
+    G.lives--;snd.hit();snd.monkey();shake(14);G.combo=0;
     spawnParts(laneX(Math.round(M.laneF)),CV.height-90,'#ff3333',18,1.6);
     G.invincible=150;G.hitFlash=60;
-    if(G.lives<=0)endGame();
+    if(G.lives<=0) {
+      if(G.inventory.lives > 0) {
+        G.inventory.lives--;
+        localStorage.setItem('mfInventory', JSON.stringify(G.inventory));
+        G.lives = 1;
+        G.invincible = 180;
+        G.hitFlash = 120;
+        snd.levelup();
+        floatText("REVIVED! ❤️", "#ff3366");
+        updateHUD();
+      } else {
+        endGame();
+      }
+    }
     else floatText('OUCH! 💥','#ff4444');
   }
   function shake(amt){if(OPTS.shake)G.camShake=Math.max(G.camShake,amt);}
 
   /* ── COLLECT ── */
   function collect(c){
+    if(c.type==='life_booster'){
+      G.lives = Math.min(3, G.lives + 1);
+      floatText("+1 LIFE! ❤️", "#ff3366");
+      snd.powerup();
+      c.alive = false;
+      const s=.3+c.z*.7;
+      const cx=CV.width/2+(laneX(c.lane)-CV.width/2)*s;
+      const cy=CV.height*HOR+(CV.height-50-CV.height*HOR)*c.z-28*s;
+      spawnParts(cx, cy, '#ff3366', 8, 1);
+      return;
+    }
     if(c.type==='ride'){
       activateRide(c.animal);
       c.alive = false;
@@ -895,6 +1129,13 @@
     }
 
     G.score+=c.type==='gem'?80:c.type==='letter'?150:12+(G.combo*.5|0);
+    if(c.type==='gem'){
+      G.gems++;
+      localStorage.setItem('mfGems', G.gems);
+    } else if(c.type!=='letter' && c.type!=='banana_bunch' && c.type!=='mystery_box') {
+      G.coins++;
+      localStorage.setItem('mfCoins', G.coins);
+    }
     G.totalBananas++;G.bananaMeter=Math.min(100,G.bananaMeter+(c.type==='gem'?22:6));
     G.combo++;if(G.combo>G.maxCombo)G.maxCombo=G.combo;
     updateMission('coin', c.type==='gem'?5:1);
@@ -953,10 +1194,20 @@
   }
   function doSlide(){if(!M.onGround)return;M.sliding=true;M.slideT=32;snd.slide();spawnParts(laneX(Math.round(M.laneF)),CV.height-75,'rgba(180,120,40,.5)',8,.8);}
   function doSpin(){
-    if(G.bananaMeter<100)return;
-    G.bananaMeter=0;G.spinDash=true;G.spinTime=130;G.invincible=130;G.spinCount++;
+    if(G.bananaMeter>=100) {
+      G.bananaMeter=0;
+      floatText('SPIN DASH! 🌀','#ffd700');
+    } else if(G.inventory.spin > 0) {
+      G.inventory.spin--;
+      localStorage.setItem('mfInventory', JSON.stringify(G.inventory));
+      floatText('SPIN BOOSTER USED! 🌀', '#ffd700');
+      updateHUD();
+    } else {
+      return;
+    }
+    G.spinDash=true;G.spinTime=130;G.invincible=130;G.spinCount++;
     updateMission('spin', 1);
-    snd.spin();floatText('SPIN DASH! 🌀','#ffd700');shake(9);checkAchievements();
+    snd.spin();shake(9);checkAchievements();
   }
 
   /* ── PAUSE ── */
@@ -1005,7 +1256,19 @@
     spawnT=0;coinT=0;npcT=0;envT=0;
     document.getElementById('overlay').style.display='none';
     document.getElementById('pauseBtn').classList.add('vis');
-    doCountdown(()=>{G.running=true;snd.levelup();showWorld();startMusic();requestAnimationFrame(loop);});
+    doCountdown(()=>{
+      G.running=true;
+      snd.levelup();
+      snd.monkey();
+      showWorld();
+      startMusic();
+      boulderVideo.play().catch(()=>{});
+      coinVideo.play().catch(()=>{});
+      gemVideo.play().catch(()=>{});
+      logVideo.play().catch(()=>{});
+      avVideo2.play().catch(()=>{});
+      requestAnimationFrame(loop);
+    });
   }
   function endGame(){
     G.running=false;G.gameOver=true;stopMusic();snd.bruh();
@@ -1037,7 +1300,12 @@
   /* ── BACKGROUND VIDEO SCROLLING SYSTEM ── */
   const bgVideo=document.getElementById('bgVideo');
   const avVideo=document.getElementById('avVideo');
+  const avVideo2=document.getElementById('avVideo2');
   const homeVideo=document.getElementById('homeVideo');
+  const boulderVideo=document.getElementById('boulderVideo');
+  const coinVideo=document.getElementById('coinVideo');
+  const gemVideo=document.getElementById('gemVideo');
+  const logVideo=document.getElementById('logVideo');
 
   bgVideo.addEventListener('error', function(e) {
     const source = bgVideo.querySelector('source');
@@ -1099,10 +1367,10 @@
     if(G.puType&&G.puTime>0){G.puTime-=dt;if(G.puTime<=0){if(G.puType==='boots')G.speed=Math.min(28,G.baseSpeed+G.dist*.0018);G.puType='';}}
     const spd=G.puType==='freeze'?.12:1;
     const zSpd=.016*dt*(G.speed/G.baseSpeed)*spd;
-    spawnT-=dt;if(spawnT<=0){const inv=Math.max(22,60-G.speed*1.1)*DIFF.spawnMult;spawnT=inv*(.7+Math.random()*.7);spawnObs();}
-    coinT-=dt;if(coinT<=0){coinT=35+Math.random()*25;spawnCoins();}
-    npcT-=dt;if(npcT<=0){npcT=90+Math.random()*80;spawnNPC();}
-    envT-=dt;if(envT<=0){envT=5+Math.random()*4;spawnEnv();}
+    spawnT-=dt;if(spawnT<=0){const inv=Math.max(35,75-G.speed*1.1)*DIFF.spawnMult;spawnT=inv*(.8+Math.random()*.8);spawnObs();}
+    coinT-=dt;if(coinT<=0){coinT=75+Math.random()*45;spawnCoins();}
+    npcT-=dt;if(npcT<=0){npcT=150+Math.random()*120;spawnNPC();}
+    envT-=dt;if(envT<=0){envT=10+Math.random()*8;spawnEnv();}
 
     // Performance: Use for-loops instead of forEach
     for(let i=obstacles.length-1;i>=0;i--){
@@ -1128,7 +1396,9 @@
     for(let i=coins.length-1;i>=0;i--){
       const c=coins[i]; if(!c.alive)continue;
       c.z+=zSpd*.97;if(c.z>1.08){c.alive=false;continue;}
-      if(G.puType==='magnet'&&c.z>.4)c.lane+=(M.laneF-c.lane)*.11*dt;
+      if(G.puType==='magnet'&&c.z>.2&&c.z<.95){
+        M.laneF = c.lane;
+      }
       if(c.z>.75&&c.z<1.02&&Math.abs(M.laneF-c.lane)<.6){c.alive=false;collect(c);}
     }
     for(let i=npcs.length-1;i>=0;i--){const n=npcs[i];if(!n.alive)continue;n.z+=zSpd*.88;n.anim+=dt;if(n.z>1.1)n.alive=false;}
@@ -1284,7 +1554,7 @@
   /* ── PATH – stone-paved road like Monkey King Escape ── */
   function drawPath(W,H){
     const wd=WORLDS[G.world];const hor=H*HOR;
-    const vx=W/2,vy=hor;const rw=W*1.0; // Fill full width for wider feel
+    const vx=W/2,vy=hor;const rw=W*1.5; // Made wider from 1.0
 
     // 1. PATH GROUND SHADOW (Ambient Occlusion)
     CX.save();
@@ -1297,7 +1567,7 @@
 
     // 2. MAIN PATH SURFACE (Reduced Opacity)
     CX.save();
-    CX.globalAlpha = 0.55; // More translucent
+    CX.globalAlpha = 0.20; // 20% Opacity
     CX.beginPath();CX.moveTo(vx-20,vy);CX.lineTo(vx+20,vy);CX.lineTo(vx+rw/2,H);CX.lineTo(vx-rw/2,H);CX.closePath();
     const rg=CX.createLinearGradient(vx-rw/2,0,vx+rw/2,0);
     rg.addColorStop(0,wd.pathDark);
@@ -1542,13 +1812,19 @@
     } else if(o.type==='branch'){
       drawBranch(ox,gy,s);
     } else if(o.type==='boulder'){
-      const bg=CX.createRadialGradient(ox-8*s,gy-35*s,3,ox,gy-20*s,32*s);
-      bg.addColorStop(0,'#ccc');bg.addColorStop(.5,'#777');bg.addColorStop(1,'#222');
-      CX.fillStyle=bg;CX.beginPath();CX.arc(ox,gy-20*s,32*s,0,Math.PI*2);CX.fill();
-      CX.strokeStyle='rgba(0,0,0,0.6)';CX.lineWidth=2;CX.stroke();
-      CX.strokeStyle='rgba(255,255,255,.25)';CX.lineWidth=2;
-      CX.beginPath();CX.moveTo(ox-5*s,gy-40*s);CX.lineTo(ox+12*s,gy-24*s);CX.stroke();
-      CX.save();CX.globalAlpha=.25;CX.fillStyle='rgba(0,0,0,.7)';CX.beginPath();CX.ellipse(ox,gy,30*s,8*s,0,0,Math.PI*2);CX.fill();CX.restore();
+      if(boulderVideo.readyState >= 2){
+        const vW=boulderVideo.videoWidth, vH=boulderVideo.videoHeight;
+        const vS = (64*s)/vH;
+        CX.drawImage(boulderVideo, ox-(vW*vS)/2, gy-64*s, vW*vS, 64*s);
+      } else {
+        const bg=CX.createRadialGradient(ox-8*s,gy-35*s,3,ox,gy-20*s,32*s);
+        bg.addColorStop(0,'#ccc');bg.addColorStop(.5,'#777');bg.addColorStop(1,'#222');
+        CX.fillStyle=bg;CX.beginPath();CX.arc(ox,gy-20*s,32*s,0,Math.PI*2);CX.fill();
+        CX.strokeStyle='rgba(0,0,0,0.6)';CX.lineWidth=2;CX.stroke();
+        CX.strokeStyle='rgba(255,255,255,.25)';CX.lineWidth=2;
+        CX.beginPath();CX.moveTo(ox-5*s,gy-40*s);CX.lineTo(ox+12*s,gy-24*s);CX.stroke();
+        CX.save();CX.globalAlpha=.25;CX.fillStyle='rgba(0,0,0,.7)';CX.beginPath();CX.ellipse(ox,gy,30*s,8*s,0,0,Math.PI*2);CX.fill();CX.restore();
+      }
     } else if(o.type==='wall'){
       drawWall(ox,gy,s);
     } else if(o.type==='barricade'){
@@ -1578,15 +1854,22 @@
   }
 
   function drawLog(ox,gy,s){
-    const w=62*s,h=24*s;
-    CX.fillStyle='#2d1a00';CX.beginPath();CX.ellipse(ox,gy-h/2,w,h/2+3,0,0,Math.PI*2);CX.fill();
-    const lg=CX.createLinearGradient(ox-w,gy-h,ox+w,gy);
-    lg.addColorStop(0,'#5C2F0A');lg.addColorStop(.3,'#8B5E3C');lg.addColorStop(.7,'#A06840');lg.addColorStop(1,'#3d2200');
-    CX.fillStyle=lg;CX.fillRect(ox-w,gy-h,w*2,h);
-    CX.strokeStyle='rgba(0,0,0,0.8)';CX.lineWidth=1.5;CX.strokeRect(ox-w,gy-h,w*2,h);
-    CX.fillStyle='#C08850';CX.beginPath();CX.ellipse(ox,gy-h,w,h/2,0,0,Math.PI*2);CX.fill();
-    CX.strokeStyle='rgba(0,0,0,.4)';CX.lineWidth=1.5;CX.beginPath();CX.ellipse(ox,gy-h,w,h/2,0,0,Math.PI*2);CX.stroke();
-    CX.save();CX.globalAlpha=.25;CX.fillStyle='rgba(0,0,0,.6)';CX.beginPath();CX.ellipse(ox,gy,w*.9,h*.35,0,0,Math.PI*2);CX.fill();CX.restore();
+    if(logVideo.readyState >= 2){
+      const vW = logVideo.videoWidth, vH = logVideo.videoHeight;
+      const targetH = 220*s; // Even bigger Rolling Log
+      const vS = targetH/vH;
+      drawChromaKeyVideo(logVideo, ox-(vW*vS)/2, gy-targetH, vW*vS, targetH);
+    } else {
+      const w=180*s,h=72*s;
+      CX.fillStyle='#2d1a00';CX.beginPath();CX.ellipse(ox,gy-h/2,w,h/2+3,0,0,Math.PI*2);CX.fill();
+      const lg=CX.createLinearGradient(ox-w,gy-h,ox+w,gy);
+      lg.addColorStop(0,'#5C2F0A');lg.addColorStop(.3,'#8B5E3C');lg.addColorStop(.7,'#A06840');lg.addColorStop(1,'#3d2200');
+      CX.fillStyle=lg;CX.fillRect(ox-w,gy-h,w*2,h);
+      CX.strokeStyle='rgba(0,0,0,0.8)';CX.lineWidth=1.5;CX.strokeRect(ox-w,gy-h,w*2,h);
+      CX.fillStyle='#C08850';CX.beginPath();CX.ellipse(ox,gy-h,w,h/2,0,0,Math.PI*2);CX.fill();
+      CX.strokeStyle='rgba(0,0,0,.4)';CX.lineWidth=1.5;CX.beginPath();CX.ellipse(ox,gy-h,w,h/2,0,0,Math.PI*2);CX.stroke();
+      CX.save();CX.globalAlpha=.25;CX.fillStyle='rgba(0,0,0,.6)';CX.beginPath();CX.ellipse(ox,gy,w*.9,h*.35,0,0,Math.PI*2);CX.fill();CX.restore();
+    }
   }
 
   function drawWall(ox,gy,s){
@@ -1679,6 +1962,10 @@
     CX.shadowBlur=0;CX.restore();
   }
 
+  function drawChromaKeyVideo(video, x, y, w, h) {
+    CX.drawImage(video, x, y, w, h);
+  }
+
   /* ── COINS – spinning gold coins like reference ── */
   function drawCoin(c){
     const W=CV.width,H=CV.height;const hor=H*HOR;
@@ -1689,10 +1976,17 @@
     const spin=Math.abs(Math.cos(G.tick*.18+c.z*3));
     CX.save();CX.globalAlpha=.6+z*.4;
     if(c.type==='gem'){
-      CX.strokeStyle='rgba(0,0,0,0.3)';CX.lineWidth=1;
-      CX.fillStyle='#00ffcc';CX.beginPath();
-      CX.moveTo(ox,gy-18*s+bob);CX.lineTo(ox+15*s,gy+bob);CX.lineTo(ox,gy+15*s+bob);CX.lineTo(ox-15*s,gy+bob);CX.closePath();CX.fill();CX.stroke();
-      CX.fillStyle='rgba(255,255,255,.4)';CX.beginPath();CX.moveTo(ox,gy-18*s+bob);CX.lineTo(ox+7*s,gy+bob);CX.lineTo(ox,gy-5*s+bob);CX.closePath();CX.fill();
+      if(gemVideo.readyState >= 2){
+        const vW=gemVideo.videoWidth, vH=gemVideo.videoHeight;
+        const targetH = 95*s; // Made even bigger from 65
+        const vS = targetH/vH;
+        drawChromaKeyVideo(gemVideo, ox-(vW*vS)/2, gy-targetH/2+bob, vW*vS, targetH);
+      } else {
+        CX.strokeStyle='rgba(0,0,0,0.3)';CX.lineWidth=1.5;
+        CX.fillStyle='#00ffcc';CX.beginPath();
+        CX.moveTo(ox,gy-26*s+bob);CX.lineTo(ox+22*s,gy+bob);CX.lineTo(ox,gy+22*s+bob);CX.lineTo(ox-22*s,gy+bob);CX.closePath();CX.fill();CX.stroke();
+        CX.fillStyle='rgba(255,255,255,.4)';CX.beginPath();CX.moveTo(ox,gy-26*s+bob);CX.lineTo(ox+11*s,gy+bob);CX.lineTo(ox,gy-7*s+bob);CX.closePath();CX.fill();
+      }
     } else if(c.type==='letter'){
         CX.fillStyle='#ff00ff';CX.font=`bold ${34*s}px 'Fredoka One',Arial`;CX.textAlign='center';
         CX.fillText(c.char||"M", ox, gy+bob);
@@ -1706,12 +2000,24 @@
     } else if(c.type==='ride'){
         CX.font=`${44*s}px Arial`;CX.textAlign='center';CX.fillText(c.animal==='leopard'?"🐆":"🦍", ox, gy+bob);
         CX.font=`bold ${12*s}px Arial`;CX.fillStyle='#fff';CX.fillText("RIDE", ox, gy+bob+20*s);
+    } else if(c.type==='life_booster'){
+        const heartG=CX.createRadialGradient(ox,gy+bob,0,ox,gy+bob,25*s);
+        heartG.addColorStop(0,'rgba(255,0,100,0.4)');heartG.addColorStop(1,'transparent');
+        CX.fillStyle=heartG;CX.beginPath();CX.arc(ox,gy+bob,30*s,0,Math.PI*2);CX.fill();
+        CX.font=`${42*s}px Arial`;CX.textAlign='center';CX.fillText("❤️", ox, gy+bob);
     } else {
-      const coinW=15*s*spin;
-      const cg=CX.createLinearGradient(ox-15*s,gy+bob,ox+15*s,gy+bob);
-      cg.addColorStop(0,'#8B6914');cg.addColorStop(.3,'#FFD700');cg.addColorStop(.5,'#FFF8A0');cg.addColorStop(.7,'#FFD700');cg.addColorStop(1,'#8B6914');
-      CX.fillStyle=cg;CX.beginPath();CX.ellipse(ox,gy+bob,Math.max(1,coinW),15*s,0,0,Math.PI*2);CX.fill();
-      CX.strokeStyle='rgba(0,0,0,0.2)';CX.lineWidth=1;CX.stroke();
+      if(coinVideo.readyState >= 2){
+        const vW=coinVideo.videoWidth, vH=coinVideo.videoHeight;
+        const targetH = 55*s; // Made bigger from 30
+        const vS = targetH/vH;
+        drawChromaKeyVideo(coinVideo, ox-(vW*vS)/2, gy-targetH/2+bob, vW*vS, targetH);
+      } else {
+        const coinW=15*s*spin;
+        const cg=CX.createLinearGradient(ox-15*s,gy+bob,ox+15*s,gy+bob);
+        cg.addColorStop(0,'#8B6914');cg.addColorStop(.3,'#FFD700');cg.addColorStop(.5,'#FFF8A0');cg.addColorStop(.7,'#FFD700');cg.addColorStop(1,'#8B6914');
+        CX.fillStyle=cg;CX.beginPath();CX.ellipse(ox,gy+bob,Math.max(1,coinW),15*s,0,0,Math.PI*2);CX.fill();
+        CX.strokeStyle='rgba(0,0,0,0.2)';CX.lineWidth=1;CX.stroke();
+      }
     }
     CX.restore();
   }
@@ -1775,7 +2081,13 @@
 
   /* ── MONKEY – vibrant red outfit like Monkey King Escape ── */
   function drawMonkey(W,H){
-    const lx=laneX(M.laneF);const by=H-58;const my=by+M.y;const s=1.3;const t=G.tick;
+    const lx=laneX(M.laneF);const by=H-58;const my=by+M.y;
+    let powerScale = 1.0;
+    if (G.puType !== '' || G.feverMode > 0 || G.riding || G.spinDash || G.shield) {
+      powerScale = 1.5;
+    }
+    const s = 1.6 * powerScale;
+    const t=G.tick;
     CX.save();
     if(G.hitFlash>0&&Math.floor(G.hitFlash/4)%2===0)CX.globalAlpha=.3;
 
@@ -1800,8 +2112,27 @@
     CX.fillStyle=shg;CX.beginPath();CX.arc(0,0,35*s,0,Math.PI*2);CX.fill();CX.restore();
 
     // DRAW VIDEO AVATAR
-    if(avVideo.readyState >= 2){
-      const vW = avVideo.videoWidth, vH = avVideo.videoHeight;
+    let chosenVideo = avVideo;
+    let filterString = 'none';
+    let extraEffect = null;
+    if(G.avatarType === 'ninja') {
+      filterString = 'hue-rotate(190deg) brightness(0.6) saturate(1.5) contrast(1.1)';
+    } else if(G.avatarType === 'cowboy') {
+      if(avVideo2.readyState >= 2) {
+        chosenVideo = avVideo2;
+      } else {
+        filterString = 'sepia(0.85) saturate(1.1) brightness(0.95) contrast(1.15)';
+      }
+    } else if(G.avatarType === 'fiery') {
+      filterString = 'hue-rotate(335deg) saturate(3) brightness(0.9) contrast(1.45) drop-shadow(0 0 10px #ff3300)';
+      extraEffect = null;
+    } else if(G.avatarType === 'jungle') {
+      filterString = 'hue-rotate(85deg) saturate(2) brightness(0.75) contrast(1.35) drop-shadow(0 0 10px #00ff88)';
+      extraEffect = null;
+    }
+
+    if(chosenVideo.readyState >= 2){
+      const vW = chosenVideo.videoWidth, vH = chosenVideo.videoHeight;
       const aspect = vW / vH;
       const h = 120 * s;
       const w = h * aspect;
@@ -1816,7 +2147,67 @@
         CX.rotate(M.spinAngle);
       }
 
-      CX.drawImage(avVideo, -w/2, -h/2, w, h);
+      if(filterString !== 'none') CX.filter = filterString;
+      CX.drawImage(chosenVideo, -w/2, -h/2, w, h);
+      CX.filter = 'none';
+
+      // Extra overlays in gameplay!
+      if (extraEffect === 'fiery') {
+        CX.save();
+        CX.globalCompositeOperation = 'source-atop';
+        const grad = CX.createLinearGradient(-w/2, -h/2, -w/2, h/2);
+        grad.addColorStop(0, 'rgba(255, 50, 0, 0.85)'); grad.addColorStop(1, 'rgba(255, 200, 0, 0.85)');
+        CX.fillStyle = grad;
+        CX.fillRect(-w/2, -h/2, w, h);
+        CX.restore();
+
+        // Draw animated flames on body outline
+        CX.save();
+        CX.globalCompositeOperation = 'source-atop';
+        CX.shadowBlur = 10; CX.shadowColor = '#ff4400';
+        CX.fillStyle = 'rgba(255, 150, 0, 0.85)';
+        const time = G.tick * 0.2;
+        for (let i = 0; i < 3; i++) {
+          const fx = -w/4 + i * (w/4);
+          const fy = h/2 - 20 + Math.sin(time + i) * 10;
+          CX.beginPath();
+          CX.moveTo(fx - w/6, h/2);
+          CX.quadraticCurveTo(fx, fy, fx + w/6, h/2);
+          CX.fill();
+        }
+        CX.restore();
+
+        // Spawn both fire sparks AND gray smoke particles in gameplay
+        if (Math.random() < 0.35) {
+          spawnParts(lx + (Math.random()-0.5)*30, my - 20, '#ff6600', 1, 0.5);
+        }
+        if (Math.random() < 0.2) {
+          spawnParts(lx + (Math.random()-0.5)*40, my - 40, 'rgba(120,120,120,0.45)', 1, 0.3);
+        }
+      } else if (extraEffect === 'jungle') {
+        CX.save();
+        CX.globalCompositeOperation = 'source-atop';
+        const grad = CX.createLinearGradient(-w/2, -h/2, -w/2, h/2);
+        grad.addColorStop(0, 'rgba(0,180,50,0.5)'); grad.addColorStop(1, 'rgba(0,80,20,0.85)');
+        CX.fillStyle = grad;
+        CX.fillRect(-w/2, -h/2, w, h);
+        CX.restore();
+
+        // Glowing Neon Vines
+        CX.save();
+        CX.shadowBlur = 8; CX.shadowColor = '#00ff88';
+        CX.strokeStyle = 'rgba(0,255,136,0.8)'; CX.lineWidth = 2.5;
+        CX.beginPath();
+        CX.moveTo(-10, -40); CX.bezierCurveTo(-5, -20, 5, 0, 0, 20);
+        CX.bezierCurveTo(-5, 30, 5, 40, 0, 50);
+        CX.stroke();
+        CX.restore();
+
+        // Spawn leaf particles in gameplay
+        if (Math.random() < 0.2) {
+          spawnParts(lx + (Math.random()-0.5)*35, my - 30, '#00ff88', 1, 0.35);
+        }
+      }
       CX.restore();
     }
 
@@ -1888,6 +2279,65 @@
   });
   document.getElementById('btnOpts').addEventListener('click',()=>{setOverlayBg('opts-bg');showScreen('sOpts');});
   document.getElementById('btnOptsBack').addEventListener('click',()=>{setOverlayBg('start-bg');showScreen('sStart');});
+  document.getElementById('btnAvs').addEventListener('click',()=>{setOverlayBg('start-bg');showScreen('sAvatars');drawAvatarPreview();});
+  document.getElementById('btnAvsBack').addEventListener('click',()=>{setOverlayBg('start-bg');showScreen('sStart');});
+
+  /* ── SHOP SYSTEM ── */
+  function updateShopUI(){
+    document.getElementById('shopCoins').textContent = '🪙 ' + G.coins;
+    document.getElementById('shopGems').textContent = '💎 ' + G.gems;
+    document.getElementById('shopQtyLife').textContent = 'Owned: ' + G.inventory.lives;
+    document.getElementById('shopQtyMagnet').textContent = 'Owned: ' + G.inventory.magnet;
+    document.getElementById('shopQtySpin').textContent = 'Owned: ' + G.inventory.spin;
+  }
+
+  function buyItem(itemType, currencyType, cost){
+    if(currencyType === 'coin') {
+      if(G.coins < cost) {
+        floatText('NOT ENOUGH COINS! 🪙', '#ff4444');
+        snd.bonk();
+        return;
+      }
+      G.coins -= cost;
+      localStorage.setItem('mfCoins', G.coins);
+    } else if(currencyType === 'gem') {
+      if(G.gems < cost) {
+        floatText('NOT ENOUGH GEMS! 💎', '#ff4444');
+        snd.bonk();
+        return;
+      }
+      G.gems -= cost;
+      localStorage.setItem('mfGems', G.gems);
+    }
+    
+    G.inventory[itemType]++;
+    localStorage.setItem('mfInventory', JSON.stringify(G.inventory));
+    snd.levelup();
+    floatText('PURCHASED SUCCESS! 🎉', '#00ffcc');
+    updateShopUI();
+  }
+
+  document.getElementById('btnShop').addEventListener('click',()=>{setOverlayBg('opts-bg');showScreen('sShop');updateShopUI();});
+  document.getElementById('btnShopBack').addEventListener('click',()=>{setOverlayBg('start-bg');showScreen('sStart');});
+
+  document.getElementById('buyLifeCoin').addEventListener('click',()=>buyItem('lives','coin',100));
+  document.getElementById('buyLifeGem').addEventListener('click',()=>buyItem('lives','gem',10));
+  document.getElementById('buyMagnetCoin').addEventListener('click',()=>buyItem('magnet','coin',150));
+  document.getElementById('buyMagnetGem').addEventListener('click',()=>buyItem('magnet','gem',15));
+  document.getElementById('buySpinCoin').addEventListener('click',()=>buyItem('spin','coin',200));
+  document.getElementById('buySpinGem').addEventListener('click',()=>buyItem('spin','gem',20));
+
+  /* ── USE MAGNET BOOSTER ── */
+  const magnetTrigger = (e)=>{
+    e.stopPropagation();
+    if(!G.running || G.paused || G.inventory.magnet <= 0) return;
+    G.inventory.magnet--;
+    localStorage.setItem('mfInventory', JSON.stringify(G.inventory));
+    activatePU('magnet');
+    updateHUD();
+  };
+  document.getElementById('btnUseMagnet').addEventListener('click', magnetTrigger);
+  document.getElementById('btnUseMagnet').addEventListener('touchstart', magnetTrigger, {passive:true});
   function makeToggle(id,key){
     const el=document.getElementById(id);
     el.addEventListener('click',()=>{OPTS[key]=!OPTS[key];el.classList.toggle('on',OPTS[key]);if(key==='music'){if(OPTS.music)startMusic();else stopMusic();}});
@@ -1903,6 +2353,102 @@
       this.quadraticCurveTo(x,y+h,x,y+h-r);this.lineTo(x,y+r);this.quadraticCurveTo(x,y,x+r,y);this.closePath();
     };
   }
+  /* ── AVATAR PREVIEW LOOP ── */
+  const pCV = document.getElementById('avatarPreviewCanvas');
+  const pCX = pCV.getContext('2d');
+  function drawAvatarPreview() {
+    if (!document.getElementById('sAvatars').classList.contains('active')) return;
+    pCX.clearRect(0,0,200,200);
+    pCX.save();
+    pCX.beginPath(); pCX.arc(100,100,100,0,Math.PI*2); pCX.clip();
+    let chosenVideo = avVideo;
+    let filterString = 'none';
+    let extraEffect = null;
+    if (G.avatarType === 'ninja') {
+      filterString = 'hue-rotate(190deg) brightness(0.6) saturate(1.5) contrast(1.1)';
+    } else if (G.avatarType === 'cowboy') {
+      if (avVideo2.readyState >= 2) chosenVideo = avVideo2;
+      else filterString = 'sepia(0.85) saturate(1.1) brightness(0.95) contrast(1.15)';
+    } else if (G.avatarType === 'fiery') {
+      filterString = 'hue-rotate(335deg) saturate(3) brightness(0.9) contrast(1.45) drop-shadow(0 0 10px #ff3300)';
+      extraEffect = null;
+    } else if (G.avatarType === 'jungle') {
+      filterString = 'hue-rotate(85deg) saturate(2) brightness(0.75) contrast(1.35) drop-shadow(0 0 10px #00ff88)';
+      extraEffect = null;
+    }
+    if (chosenVideo.readyState >= 2) {
+      const aspect = chosenVideo.videoWidth / chosenVideo.videoHeight;
+      const h = 200;
+      const w = h * aspect;
+      if (filterString !== 'none') pCX.filter = filterString;
+      pCX.drawImage(chosenVideo, 100-w/2, 100-h/2, w, h);
+      pCX.filter = 'none';
+      if (extraEffect === 'fiery') {
+        pCX.save();
+        pCX.globalCompositeOperation = 'source-atop';
+        const grad = pCX.createLinearGradient(0,0,0,200);
+        grad.addColorStop(0, 'rgba(255,50,0,0.8)'); grad.addColorStop(1, 'rgba(255,200,0,0.8)');
+        pCX.fillStyle = grad; pCX.fillRect(0,0,200,200);
+        pCX.restore();
+        
+        // Animated Flame curves on preview body
+        pCX.save();
+        pCX.globalCompositeOperation = 'source-atop';
+        pCX.shadowBlur = 12; pCX.shadowColor = '#ff6600';
+        pCX.fillStyle = 'rgba(255, 120, 0, 0.85)';
+        const time = Date.now() * 0.01;
+        for (let i = 0; i < 3; i++) {
+          const fx = 60 + i * 40;
+          const fy = 160 + Math.sin(time + i) * 12;
+          pCX.beginPath();
+          pCX.moveTo(fx - 20, 200);
+          pCX.quadraticCurveTo(fx, fy, fx + 20, 200);
+          pCX.fill();
+        }
+        pCX.restore();
+        
+        // Fire sparks
+        pCX.fillStyle = 'rgba(255,100,0,0.6)';
+        for(let i=0; i<6; i++) {
+          const sx = 50 + Math.random()*100; const sy = 20 + Math.random()*160;
+          pCX.beginPath(); pCX.arc(sx, sy, 3+Math.random()*8, 0, Math.PI*2); pCX.fill();
+        }
+        // Gray Smoke puffs
+        pCX.fillStyle = 'rgba(120,120,120,0.35)';
+        for(let i=0; i<3; i++) {
+          const sx = 60 + Math.random()*80; const sy = 10 + Math.random()*130;
+          pCX.beginPath(); pCX.arc(sx, sy, 8+Math.random()*12, 0, Math.PI*2); pCX.fill();
+        }
+      } else if (extraEffect === 'jungle') {
+        pCX.save();
+        pCX.globalCompositeOperation = 'source-atop';
+        const grad = pCX.createLinearGradient(0,0,0,200);
+        grad.addColorStop(0, 'rgba(0,180,50,0.5)'); grad.addColorStop(1, 'rgba(0,80,20,0.85)');
+        pCX.fillStyle = grad; pCX.fillRect(0,0,200,200);
+        pCX.restore();
+        
+        // Glowing Neon Vines
+        pCX.save();
+        pCX.shadowBlur = 8; pCX.shadowColor = '#00ff88';
+        pCX.strokeStyle = 'rgba(0,255,136,0.8)'; pCX.lineWidth = 2.5;
+        pCX.beginPath();
+        pCX.moveTo(80,30); pCX.bezierCurveTo(90,60,110,80,100,120);
+        pCX.bezierCurveTo(90,140,110,160,100,180);
+        pCX.stroke();
+        pCX.restore();
+
+        // Neon leaf particles
+        pCX.fillStyle = 'rgba(0,255,136,0.6)';
+        for(let i=0; i<4; i++) {
+          const sx = 40 + Math.random()*120; const sy = 20 + Math.random()*160;
+          pCX.beginPath(); pCX.ellipse(sx, sy, 5, 2.5, Math.random()*Math.PI, 0, Math.PI*2); pCX.fill();
+        }
+      }
+    }
+    pCX.restore();
+    requestAnimationFrame(drawAvatarPreview);
+  }
+
   // Initial
   renderMissions('missionListStart');
   // Initial canvas background
