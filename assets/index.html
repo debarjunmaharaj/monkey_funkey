@@ -454,12 +454,6 @@
 <div id="overlay" class="start-bg">
   <!-- Start -->
   <div class="screen active" id="sStart">
-    <div id="homeAvatarWrap">
-      <video id="homeVideo" preload="auto" autoplay loop muted playsinline>
-        <source src="home.webm" type="video/webm">
-      </video>
-    </div>
-
     <div style="z-index:2">
       <div class="gtitle-wrap">
         <div class="gtitle-shadow">MONKEY<br>FUNKEY</div>
@@ -672,7 +666,6 @@
       coinVideo.play().catch(()=>{});
       gemVideo.play().catch(()=>{});
       logVideo.play().catch(()=>{});
-      if(homeVideo) homeVideo.play().catch(()=>{});
     }
   }
 
@@ -1301,7 +1294,6 @@
   const bgVideo=document.getElementById('bgVideo');
   const avVideo=document.getElementById('avVideo');
   const avVideo2=document.getElementById('avVideo2');
-  const homeVideo=document.getElementById('homeVideo');
   const boulderVideo=document.getElementById('boulderVideo');
   const coinVideo=document.getElementById('coinVideo');
   const gemVideo=document.getElementById('gemVideo');
@@ -1442,59 +1434,53 @@
     CX.restore();
   }
 
-  /* ── SKY + GROUND – scrolling background video ── */
   function drawScrollingBg(W,H){
-    // Use readyState >= 2 (HAVE_CURRENT_DATA) to check if video can be drawn
-    if(bgVideo.readyState >= 2 && bgVideo.videoWidth > 0){
-      const vidW=bgVideo.videoWidth, vidH=bgVideo.videoHeight;
-      const scaleX=W/vidW, scaleY=H/vidH;
+    const videoReady = bgVideo.readyState >= 2 && bgVideo.videoWidth > 0;
+    const vidW = videoReady ? bgVideo.videoWidth : 16;
+    const vidH = videoReady ? bgVideo.videoHeight : 9;
 
-      // EFFECT: Subtle breathing zoom
-      const zoomPulse = 1.02 + Math.sin(G.tick * 0.02) * 0.02;
-      const scale=Math.max(scaleX,scaleY) * zoomPulse;
-      const dw=vidW*scale, dh=vidH*scale;
+    const scaleX = W / vidW;
+    const scaleY = H / vidH;
 
-      // EFFECT: Parallax shift based on monkey lane
-      const laneParallax = (M.lane - 1) * 35;
+    const zoomPulse = 1.02 + Math.sin(G.tick * 0.02) * 0.02;
+    const scale = Math.max(scaleX, scaleY) * zoomPulse;
+    const dw = vidW * scale;
+    const dh = vidH * scale;
 
-      // EFFECT: Independent background vibration
-      const bgShakeX = Math.sin(G.tick * 0.15) * (G.camShake * 0.4);
+    const laneParallax = (M.lane - 1) * 35;
+    const bgShakeX = Math.sin(G.tick * 0.15) * (G.camShake * 0.4);
+    const dx = (W - dw) / 2 - laneParallax + bgShakeX;
 
-      const dx=(W-dw)/2 - laneParallax + bgShakeX;
+    CX.save();
 
-      CX.save();
-
-      // EFFECT: Motion blur at high speeds (performance intensive, simple version)
-      if(OPTS.blur && G.speed > 18) {
-        CX.filter = `blur(${Math.min(2, (G.speed-18)*0.3)}px)`;
-      }
-
-      CX.drawImage(bgVideo,dx,(H-dh)/2,dw,dh);
-
-      if(CX.filter !== 'none') CX.filter = 'none';
-
-      // World-based color grading
-      const tints=['rgba(20,60,0,0.12)','rgba(50,25,0,0.18)','rgba(40,0,0,0.22)'];
-      CX.fillStyle=tints[G.world];
-      CX.fillRect(0,0,W,H);
-
-      // Top/Bottom cinematic vignette
-      const vig = CX.createLinearGradient(0,0,0,H);
-      vig.addColorStop(0, 'rgba(0,0,0,0.3)');
-      vig.addColorStop(0.2, 'rgba(0,0,0,0)');
-      vig.addColorStop(0.8, 'rgba(0,0,0,0)');
-      vig.addColorStop(1, 'rgba(0,0,0,0.5)');
-      CX.fillStyle = vig;
-      CX.fillRect(0,0,W,H);
-
-      CX.restore();
-    } else {
-      // Fallback procedural gradient while video loads
-      const wd=WORLDS[G.world];
-      const sk=CX.createLinearGradient(0,0,0,H);
-      sk.addColorStop(0,wd.skyTop);sk.addColorStop(.35,wd.skyMid);sk.addColorStop(.65,wd.groundTop);sk.addColorStop(1,wd.groundBot);
-      CX.fillStyle=sk;CX.fillRect(0,0,W,H);
+    if(OPTS.blur && G.speed > 18) {
+      CX.filter = `blur(${Math.min(2, (G.speed - 18) * 0.3)}px)`;
     }
+
+    if (videoReady) {
+      CX.drawImage(bgVideo, dx, (H - dh) / 2, dw, dh);
+    } else {
+      const wd = WORLDS[G.world];
+      const sk = CX.createLinearGradient(0, 0, 0, H);
+      sk.addColorStop(0, wd.skyTop);
+      sk.addColorStop(0.35, wd.skyMid);
+      sk.addColorStop(0.65, wd.groundTop);
+      sk.addColorStop(1, wd.groundBot);
+      CX.fillStyle = sk;
+      CX.fillRect(0, 0, W, H);
+    }
+
+    if (CX.filter !== 'none') CX.filter = 'none';
+
+    const vig = CX.createLinearGradient(0, 0, 0, H);
+    vig.addColorStop(0, 'rgba(0,0,0,0.3)');
+    vig.addColorStop(0.2, 'rgba(0,0,0,0)');
+    vig.addColorStop(0.8, 'rgba(0,0,0,0)');
+    vig.addColorStop(1, 'rgba(0,0,0,0.5)');
+    CX.fillStyle = vig;
+    CX.fillRect(0, 0, W, H);
+
+    CX.restore();
   }
 
   function drawSky(W,H){
